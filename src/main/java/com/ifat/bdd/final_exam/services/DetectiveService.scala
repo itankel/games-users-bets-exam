@@ -5,6 +5,8 @@ import java.sql.Timestamp
 import com.ifat.bdd.final_exam.model.mapping.{EnrichedBetEvents, SuspiciousActivity}
 import org.apache.spark.sql.{Dataset, Encoders, SparkSession}
 import org.springframework.stereotype.Component
+import scala.collection.JavaConverters._
+
 
 @Component
 class DetectiveService(@transient sparkSession: SparkSession) extends Serializable{
@@ -39,7 +41,7 @@ class DetectiveService(@transient sparkSession: SparkSession) extends Serializab
       .collect()
 
     println(" duplicate country array returned " + suspiciousUsers.mkString("Array(", ", ", ")"))
-    suspiciousUsers
+    suspiciousUsers.seq.asJava
   }
 
   def checkSuspiciousActivity(enrichedBetEventsDataSet: Dataset[EnrichedBetEvents], startOn: Timestamp, endOn: Timestamp) = {
@@ -61,15 +63,13 @@ class DetectiveService(@transient sparkSession: SparkSession) extends Serializab
   private def checkWinRateCheatingActivity(enrichedBetEventsDataSet: Dataset[EnrichedBetEvents])= {
     println(" checkCheatingActivity count==>" + enrichedBetEventsDataSet.filter(_.betRation(WIN_BET_RATION)).count())
     enrichedBetEventsDataSet.filter(_.betRation(WIN_BET_RATION)).show(false)
-    val suspiciousEvent = enrichedBetEventsDataSet.filter(_.betRation(WIN_BET_RATION))//.collect()
-    suspiciousEvent
+    enrichedBetEventsDataSet.filter(_.betRation(WIN_BET_RATION))
   }
 
   private def checkContinuesTimeActivity(enrichedBetEventsDataSet: Dataset[EnrichedBetEvents])={
     println(" checkContinuesTimeActivity count==> " + enrichedBetEventsDataSet.filter(_.isMoreThan(5)).count())
     enrichedBetEventsDataSet.filter(_.isMoreThan(NUM_HOURS)).show(false)
-    val suspiciousEvent = enrichedBetEventsDataSet.filter(_.isMoreThan(NUM_HOURS))//.collect()
-    suspiciousEvent
+    enrichedBetEventsDataSet.filter(_.isMoreThan(NUM_HOURS))
   }
 
 }

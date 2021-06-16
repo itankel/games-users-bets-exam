@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- * @author
- */
+
 @RestController
 @RequestMapping("/api/")
 public class StatisticsController {

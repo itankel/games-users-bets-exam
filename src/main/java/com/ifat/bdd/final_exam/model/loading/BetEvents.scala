@@ -14,12 +14,7 @@ Int, bet: Double, gameName: String, win: Double, onlineTimeSecs: Long) extends S
   def betRation(ration: Double): Boolean = {
     win > bet * ration
   }
-
-  def statesDemo() = {
-    gameName.endsWith("-demo")
-  }
-
-
+  
   def inBetween(timestampStart: Timestamp, timestampEnd: Timestamp): Boolean = {
     eventTime.after(timestampStart) && eventTime.before(timestampEnd)
   }

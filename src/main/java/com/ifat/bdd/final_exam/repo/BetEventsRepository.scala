@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 
 
+
 @Component
 class BetEventsRepository(sparkSession: SparkSession, @Value("${app.events.source.file}") jsonFile:String){
   import sparkSession.implicits._

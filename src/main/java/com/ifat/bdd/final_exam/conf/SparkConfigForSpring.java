@@ -10,10 +10,10 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SparkConfigForSpring {
-    {
-        System.setProperty("hadoop.home.dir", "C:\\Hadoop\\winutils\\");
-
-    }
+//    {
+//        System.setProperty("hadoop.home.dir", "C:\\Hadoop\\winutils\\");
+//
+//    }
 
     @Bean
     public SparkSession sparkSessionDev(){

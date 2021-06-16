@@ -6,19 +6,19 @@ import com.ifat.bdd.final_exam.model.mapping.{EnrichedBetEvents, StatisticsData,
 import com.ifat.bdd.final_exam.repo.EnrichedBetEventsRepository
 import org.springframework.stereotype.Service
 
-import scala.collection.JavaConverters._
+
 
 
 @Service
 class ReportService(enrichedBetEventsRepository :EnrichedBetEventsRepository,filterService: FilterService
                          ,detectiveService:DetectiveService,statisticsService: StatisticsService) {
 
-  enrichedBetEventsRepository.createEnrichedBetEventsRepositoryDS()
+  private val enrichedBetDataSet=enrichedBetEventsRepository.createEnrichedBetEventsRepositoryDS()
   private val filteredDataSet=filterService.filterByCountryAndGamePrefix()
 
 
   def reportOnSuspiciousLocation(startOn: Timestamp, endOn: Timestamp): java.util.List[SuspiciousActivity]={
-    detectiveService.checkActivityFromDifferentLocation(filteredDataSet, startOn, endOn).seq.asJava
+    detectiveService.checkActivityFromDifferentLocation(filteredDataSet, startOn, endOn)
 
   }
 

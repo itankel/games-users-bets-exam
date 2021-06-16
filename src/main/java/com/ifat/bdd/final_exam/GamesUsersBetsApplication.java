@@ -10,8 +10,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class GamesUsersBetsApplication {
 
     public static void main(String[] args) {
-        Logger.getLogger("org").setLevel(Level.OFF);
-        Logger.getLogger("akka").setLevel(Level.OFF);
+//        Logger.getLogger("org").setLevel(Level.OFF);
+//        Logger.getLogger("akka").setLevel(Level.OFF);
 
         ConfigurableApplicationContext context = SpringApplication.run(GamesUsersBetsApplication.class, args);
         System.out.println();

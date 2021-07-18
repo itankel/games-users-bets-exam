@@ -3,12 +3,15 @@ package com.ifat.bdd.final_exam.services
 import java.sql.Timestamp
 
 import com.ifat.bdd.final_exam.model.mapping.{EnrichedBetEvents, SuspiciousActivity}
+import lombok.extern.slf4j.Slf4j
 import org.apache.spark.sql.{Dataset, Encoders, SparkSession}
 import org.springframework.stereotype.Component
+
 import scala.collection.JavaConverters._
 
 
 @Component
+@Slf4j
 class DetectiveService(@transient sparkSession: SparkSession) extends Serializable{
   import sparkSession.implicits._
 
@@ -17,17 +20,15 @@ class DetectiveService(@transient sparkSession: SparkSession) extends Serializab
   private val USER_ID_COL = "userId"
   private val EVENT_COUNTRY = "eventCountry"
 
-
   def checkActivityFromDifferentLocation(enrichedBetEventsDataSet: Dataset[EnrichedBetEvents], startOn: Timestamp, endOn: Timestamp)= {
     val betweenTimesEnrichedDS = enrichedBetEventsDataSet.filter(_.inBetween(startOn, endOn)).persist()
     println("checkSuspiciousActivity between given times")
     betweenTimesEnrichedDS.show(false)
     println(" checkActivityFromCountries ")
 
-
     //for debug
     betweenTimesEnrichedDS
-      .dropDuplicates(USER_ID_COL, EVENT_COUNTRY)
+      .dropDuplicates(USER_ID_COL, EVENT_COUNTRY,"name","lastName","email")
       .groupBy(USER_ID_COL).count()
       .filter('count > 1).show(false)
 
